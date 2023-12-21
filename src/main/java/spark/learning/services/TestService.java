@@ -2,10 +2,11 @@ package spark.learning.services;
 
 import org.json.JSONObject;
 import spark.Request;
+import spark.learning.domain.User;
 
 public class TestService {
-
     public static String hello() {
+        String res = "Hello Java";
         return "Hello, Spark Java!";
     }
 
@@ -21,5 +22,9 @@ public class TestService {
         json.put("protocol", request.protocol());
         json.put("method", request.requestMethod());
         return json.toString();
+    }
+
+    public static User userInfo() {
+        return new User("Naeem Ghumman", "naeemghumman01@gmail.com");
     }
 }

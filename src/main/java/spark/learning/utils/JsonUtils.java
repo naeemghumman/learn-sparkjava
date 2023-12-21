@@ -4,7 +4,7 @@ import spark.Response;
 
 public class JsonUtils {
 
-    public static void setJsonContentType(Response response) {
+    public static void setResponseTypeJson(Response response) {
         response.type("application/json");
     }
 }
