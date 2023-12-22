@@ -2,11 +2,13 @@ package spark.learning.routes;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import spark.learning.domain.User;
+import spark.ModelAndView;
+import spark.learning.config.FreeMarkerTemplateEngine;
+import spark.learning.services.UserService;
 import spark.learning.transformers.JsonTransformer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.learning.utils.JsonUtils.*;
 
@@ -35,13 +37,18 @@ public class TestRoutes {
         get("/greet/:name", (req, res) -> greet(req));
 
         // Use of JsonTransformer
-        get("/users", "application/json", (req, res) -> {
+        get("/kids", "application/json", (req, res) -> {
             setResponseTypeJson(res);
-            ArrayList<User> list = new ArrayList<>();
-            list.add(new User("Rohan Ghumman", "rohan.ghumman@gmail.com"));
-            list.add(new User("Salman Ghumman", "salman.ghumman@gmail.com"));
-            list.add(new User("Ahmed Ghumman", "ahmed.ghumman@gmail.com"));
-            return list;
+            return UserService.getUsers();
         }, new JsonTransformer());
+
+        // Using Free Marker templates http://localhost:8080/users
+        get("/users", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("users", UserService.getUsers());
+            return new FreeMarkerTemplateEngine().render(
+                    new ModelAndView(model, "users-info.ftl")
+            );
+        });
     }
 }
