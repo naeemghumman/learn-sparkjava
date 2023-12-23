@@ -8,10 +8,8 @@
   <packaging>jar</packaging>
 
   <name>learn-sparkjava</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
-<!--    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <sparkjava.version>2.9.4</sparkjava.version>
@@ -20,27 +18,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>com.sparkjava</groupId>
       <artifactId>spark-core</artifactId>
       <version>2.9.4</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>2.22.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>2.22.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -64,6 +44,12 @@
       <version>2.3.32</version>
     </dependency>
 
+    <!--     To enable logging?-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.21</version>
+    </dependency>
 
   </dependencies>
 
@@ -73,11 +59,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
-        <configuration>
-<!--          <release>11</release>-->
-          <source>11</source>
-          <target>11</target>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -89,31 +70,31 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
               <mainClass>spark.learning.App</mainClass>
             </manifest>
           </archive>
         </configuration>
       </plugin>
 
-      <!--
-      The Maven Shade Plugin is a Maven plugin that provides the capability to create an "Uber JAR" (also known as a fat JAR or shaded JAR).
-      An Uber JAR is a JAR file that contains all the compiled classes of a project, along with its dependencies, packaged together.
-      This helps in creating a single, self-contained executable JAR file for a Java application.
-      -->
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.1</version>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.6.0</version>
         <executions>
           <execution>
+            <id>copy-dependencies</id>
             <phase>package</phase>
             <goals>
-              <goal>shade</goal>
+              <goal>copy-dependencies</goal>
             </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+            </configuration>
           </execution>
         </executions>
-      </plugin>-->
-
+      </plugin>
     </plugins>
   </build>
+
 </project>
