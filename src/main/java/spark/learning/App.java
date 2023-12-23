@@ -1,9 +1,13 @@
 package spark.learning;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.learning.routes.TestRoutes;
 import static spark.Spark.*;
 
 public class App {
+
+    private static final Logger log = LoggerFactory.getLogger(App.class);
 
     public static void main( String[] args ) {
 
@@ -17,9 +21,9 @@ public class App {
         TestRoutes.configureRoutes();             // Configure routes
 
         if (port() == 443) {
-            System.out.println("Server running at https://localhost:" + port());
+            log.info("Server running at https://localhost:" + port());
         } else {
-            System.out.println("Server running at http://localhost:" + port());
+            log.info("Server running at http://localhost:" + port());
         }
     }
 }

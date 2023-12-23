@@ -1,9 +1,13 @@
 package spark.learning.routes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.learning.config.FreeMarkerTemplateEngine;
 import spark.learning.services.UserService;
 import spark.learning.transformers.JsonTransformer;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +17,11 @@ import static spark.Spark.*;
 
 public class TestRoutes {
 
+    private static final Logger log = LoggerFactory.getLogger(TestRoutes.class);
+
     public static void configureRoutes() {
 
-        before("/*", (request, response) -> System.out.println("Received API call " + request.uri()));
+        before("/*", (request, response) -> log.info("Received API call " + request.uri()));
 
         // GET http://localhost:8080/
         get("/", (req, res) -> hello());
