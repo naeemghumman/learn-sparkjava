@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.learning.config.FreeMarkerTemplateEngine;
+import spark.learning.services.TestService;
 import spark.learning.services.UserService;
 import spark.learning.transformers.JsonTransformer;
 
@@ -50,5 +51,11 @@ public class TestRoutes {
                     new ModelAndView(model, "users-info.ftl")
             );
         });
+
+        // Use of JsonTransformer
+        get("/companies", "application/json", (req, res) -> {
+            setResponseTypeJson(res);
+            return TestService.findAllCompanies();
+        }, new JsonTransformer());
     }
 }
